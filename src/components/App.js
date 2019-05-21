@@ -8,6 +8,7 @@ import ArticleForm from './ArticleForm';
 import DeleteConfirm from './DeleteConfirm';
 import UserForm from './UserForm';
 import InputField from './InputField';
+import NotFound from './NotFound';
 
 class App extends Component {
     state = {
@@ -36,6 +37,7 @@ class App extends Component {
                             <Route path="/article/:id/edit" component={ArticleForm} />
                             <Route path="/article/:id/delete" component={DeleteConfirm} />
                             <Route path="/article/:id" component={ArticleDetail} />
+                            <NotFound />
                         </Switch>
                     </WhitePage>
                 </div>
