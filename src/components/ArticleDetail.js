@@ -6,9 +6,9 @@ class ArticleDetail extends Component {
 
     renderButtonsAuthBased = () => {
         return (
-            <div>
-                <Link to={'/article/1/edit'}>Edit</Link>
-                <Link to={'/article/2/delete'}>Delete</Link>
+            <div className="btn-group">
+                <Link className="btn btn-dark" to={'/article/1/edit'}>Edit</Link>
+                <Link className="btn btn-warning" to={'/article/2/delete'}>Delete</Link>
             </div>
         )
     }

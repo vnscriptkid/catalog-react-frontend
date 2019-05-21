@@ -4,7 +4,12 @@ import {Link} from 'react-router-dom'
 class Header extends Component {
     state = {  }
 
-    logInOrOut = () => <button className="btn btn-danger btn-lg">Sign Out</button>
+    logInOrOut = () => (
+        <div>
+            <Link to="/register" className="btn btn-danger btn-lg">Register</Link>
+            <Link to="/login" className="btn btn-outline-danger btn-lg ml-3">Sign In</Link>
+        </div>
+    )
     
     render() { 
         return ( 
