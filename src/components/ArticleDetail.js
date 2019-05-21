@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import {Link} from 'react-router-dom'
 
 class ArticleDetail extends Component {
     state = {  }
@@ -6,8 +7,8 @@ class ArticleDetail extends Component {
     renderButtonsAuthBased = () => {
         return (
             <div>
-                <button>Edit</button>
-                <button>Delete</button>
+                <Link to={'/article/1/edit'}>Edit</Link>
+                <Link to={'/article/2/delete'}>Delete</Link>
             </div>
         )
     }

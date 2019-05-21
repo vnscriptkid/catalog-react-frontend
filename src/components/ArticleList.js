@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import GeneralLink from './GeneralLink';
+import MutedText from './MutedText';
 
 class ArticleList extends Component {
     state = {  }
@@ -6,21 +8,9 @@ class ArticleList extends Component {
         return (  
             <div className="pl-5">
                 <h2>Latest Items</h2>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
-                <p>Soccer</p>
+                <div className="d-flex flex-column">
+                    {Array(10).fill(null).map(ele => <GeneralLink to={'/article/1'}>Basket Ball <MutedText>(Volleyball)</MutedText></GeneralLink>)}
+                </div>
             </div>
         );
     }
