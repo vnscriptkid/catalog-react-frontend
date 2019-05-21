@@ -7,6 +7,7 @@ import ArticleDetail from './ArticleDetail';
 import ArticleForm from './ArticleForm';
 import DeleteConfirm from './DeleteConfirm';
 import UserForm from './UserForm';
+import InputField from './InputField';
 
 class App extends Component {
     state = {
@@ -21,8 +22,16 @@ class App extends Component {
                     <WhitePage>
                         <Switch>
                             <Route path="/" exact component={GeneralView} />
-                            <Route path="/login" component={UserForm} />
-                            <Route path="/register" render={() => <UserForm></UserForm>} />
+                            <Route path="/login" render={() => <UserForm>
+                                <InputField label="User Name" />
+                                <InputField label="Password" type="password" />
+                            </UserForm>} />
+                            <Route path="/register" render={() => <UserForm>
+                                <InputField label="User Name" />
+                                <InputField label="Password" type="password" />
+                                <InputField label="First Name" />
+                                <InputField label="Last Name" />
+                            </UserForm>} />
                             <Route path="/article/new" component={ArticleForm} />
                             <Route path="/article/:id/edit" component={ArticleForm} />
                             <Route path="/article/:id/delete" component={DeleteConfirm} />
