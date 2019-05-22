@@ -1,3 +1,12 @@
+import {SAVE_CATEGORIES} from '../actions/types';
+
 export default (state = [], action = {}) => {
-    return state;
+
+    debugger; 
+    switch (action.type) {
+        case SAVE_CATEGORIES:
+            return [...action.payload];
+        default:
+            return state;
+    }
 }
