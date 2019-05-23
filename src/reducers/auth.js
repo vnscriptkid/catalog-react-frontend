@@ -1,29 +1,31 @@
-import {SAVE_TOKEN, REMOVE_TOKEN} from '../actions/types';
+import {SAVE_TOKEN, REMOVE_TOKEN, SAVE_USER_INFO} from '../actions/types';
 
-const TOKEN = 'access_token';
-
-function getTokenFromStorage() {
-    return localStorage.getItem(TOKEN);
+function getUserInfoFromStorage() {
+    const token = localStorage.getItem('token') || null;
+    const username = localStorage.getItem('username') || null;
+    return { username, token }
 }
 
-function setTokenFromStorage(token) {
-    localStorage.setItem(TOKEN, token)
+function setUserInfoToStorage({ token, username }) {
+    localStorage.setItem('token', token)
+    localStorage.setItem('username', username)
 }
 
-function removeTokenFromStorage() {
-    localStorage.removeItem(TOKEN);
+function removeUserInfoFromStorage() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
 }
 
-const defaultState = getTokenFromStorage() || null;
+const defaultState = getUserInfoFromStorage()
 
 export default (state = defaultState, action = {}) => {
     switch (action.type) {
-        case SAVE_TOKEN: 
-            setTokenFromStorage(action.payload);
+        case SAVE_USER_INFO:
+            setUserInfoToStorage(action.payload);
             return action.payload;
         case REMOVE_TOKEN:
-            removeTokenFromStorage();
-            return null;
+            removeUserInfoFromStorage();
+            return { token: null, username: null };
         default:
             return state;
     }

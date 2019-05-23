@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'http2';
 
 export default (Comp) => {
     class Wrapper extends Component {
 
         componentWillMount() {
-            if (!this.props.isAuth) return this.props.history.push('/');
+            if (!this.props.isAuth || this.props.author.username !== this.props.currentUser) 
+                return this.props.history.push('/');
         }
         
         render() {
@@ -13,7 +14,7 @@ export default (Comp) => {
         }
     }
 
-    const mapStateToProps = ({ auth }) => ({ isAuth: !!auth.token })
+    const mapStateToProps = ({ auth }) => ({ isAuth: !!auth, currentUser: auth.username })
 
     return connect(mapStateToProps)(Wrapper);
 }

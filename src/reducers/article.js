@@ -1,4 +1,4 @@
-import {SAVE_ARTICLES, SAVE_SINGLE_ARTICLE, SAVE_LATEST_ARTICLES} from '../actions/types'
+import {SAVE_ARTICLES, SAVE_SINGLE_ARTICLE, SAVE_LATEST_ARTICLES, REMOVE_ARTICLE} from '../actions/types'
 
 const defaultState = {
     all: {},
@@ -18,6 +18,8 @@ export default (state = defaultState, action = {}) => {
         case SAVE_SINGLE_ARTICLE:
             const article = action.payload
             return { ...state, all: {...state.all, [article.id]: article} }
+        case REMOVE_ARTICLE:
+            return state;
         default:
             return state;
     }

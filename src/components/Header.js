@@ -38,6 +38,6 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => ({ isAuth: !!auth })
+const mapStateToProps = ({ auth }) => ({ isAuth: auth && auth.token })
  
 export default connect(mapStateToProps, { ...actions })(Header);

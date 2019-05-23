@@ -12,6 +12,7 @@ import NotFound from './NotFound';
 import Login from './Login';
 import Notification from './Notification';
 import RouteChangeListener from './RouteChangeListener';
+import requireAuth from '../hoc/requireAuth';
 
 class App extends Component {
 
@@ -32,11 +33,11 @@ class App extends Component {
                                     <InputField label="First Name" />
                                     <InputField label="Last Name" />
                                 </UserForm>} />
-                                <Route path="/article/new" component={ArticleForm} />
+                                <Route path="/article/new" component={requireAuth(ArticleForm)} />
                                 <Route path="/article/:id/edit" component={ArticleForm} />
                                 <Route path="/article/:id/delete" component={DeleteConfirm} />
                                 <Route path="/article/:id" component={ArticleDetail} />
-                                <NotFound />
+                                <NotFound path="/notfound"/>
                             </Switch>
                         </WhitePage>
                     </div>
