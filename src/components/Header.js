@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import * as actions from '../actions/auth';
 
 class Header extends Component {
-    state = {  }
 
-    logInOrOut = () => (
+    logInOrOut = () => {
+        return this.props.isAuth ? (
         <div>
-            <Link to="/register" className="btn btn-danger btn-lg">Register</Link>
-            <Link to="/login" className="btn btn-outline-danger btn-lg ml-3">Sign In</Link>
+            <button className="btn btn-danger btn-lg">Log Out</button>
         </div>
-    )
+        )
+            :
+        (
+            <div>
+                <Link to="/register" className="btn btn-danger btn-lg">Register</Link>
+                <Link to="/login" className="btn btn-outline-danger btn-lg ml-3">Sign In</Link>
+            </div>
+        )
+    }
     
     render() { 
         return ( 
@@ -22,5 +31,7 @@ class Header extends Component {
         );
     }
 }
+
+const mapStateToProps = ({ auth }) => ({ isAuth: !!auth })
  
-export default Header;
+export default connect(mapStateToProps, { ...actions })(Header);

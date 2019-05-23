@@ -33,6 +33,6 @@ class ArticleDetail extends Component {
     }
 }
  
-const mapStateToProps = ({ articles }, props) => ({ article: articles[props.match.params.id] })
+const mapStateToProps = ({ articles }, props) => ({ article: articles.all[props.match.params.id] })
 
 export default connect(mapStateToProps, { ...actions })(ArticleDetail);

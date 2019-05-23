@@ -9,6 +9,7 @@ import DeleteConfirm from './DeleteConfirm';
 import UserForm from './UserForm';
 import InputField from './InputField';
 import NotFound from './NotFound';
+import Login from './Login';
 
 class App extends Component {
     state = {
@@ -23,10 +24,7 @@ class App extends Component {
                     <WhitePage>
                         <Switch>
                             <Route path="/" exact component={GeneralView} />
-                            <Route path="/login" render={() => <UserForm>
-                                <InputField label="User Name" />
-                                <InputField label="Password" type="password" />
-                            </UserForm>} />
+                            <Route path="/login" component={Login} />
                             <Route path="/register" render={() => <UserForm>
                                 <InputField label="User Name" />
                                 <InputField label="Password" type="password" />
