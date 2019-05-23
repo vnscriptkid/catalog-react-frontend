@@ -4,9 +4,10 @@ import articleReducer from './article'
 import categoryReducer from './category'
 import { reducer as formReducer } from 'redux-form';
 import selectedCategory from './selectedCategory';
+import notificationReducer from './notification';
 
 export default combineReducers({
-    notifications: () => null,
+    notification: notificationReducer,
     auth: authReducer,
     articles: articleReducer,
     categories: categoryReducer,

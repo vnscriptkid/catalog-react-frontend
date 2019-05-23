@@ -8,7 +8,7 @@ class Header extends Component {
     logInOrOut = () => {
         return this.props.isAuth ? (
         <div>
-            <button className="btn btn-danger btn-lg">Log Out</button>
+            <button onClick={this.handleLogout} className="btn btn-danger btn-lg">Log Out</button>
         </div>
         )
             :
@@ -18,6 +18,12 @@ class Header extends Component {
                 <Link to="/login" className="btn btn-outline-danger btn-lg ml-3">Sign In</Link>
             </div>
         )
+    }
+
+    handleLogout = () => {
+        // eslint-disable-next-line no-restricted-globals
+        const yes = confirm('Are your sure to log out?')
+        if (yes) this.props.logout(); 
     }
     
     render() { 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import * as actions from '../actions/auth';
+import * as authActions from '../actions/auth';
+import * as notificationActions from '../actions/notification';
 
 class Login extends Component {
     state = {
@@ -16,6 +17,7 @@ class Login extends Component {
 
     afterLoginSuccess = () => {
         this.props.history.push('/');
+        this.props.addNotification({ message: 'Login successfully' })
     }
 
     handleInputChange = (e) => {
@@ -38,4 +40,4 @@ class Login extends Component {
     }
 }
  
-export default connect(null, { ...actions })(Login);
+export default connect(null, { ...authActions, ...notificationActions })(Login);
