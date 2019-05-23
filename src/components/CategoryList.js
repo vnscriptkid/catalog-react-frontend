@@ -5,15 +5,21 @@ import * as actions from '../actions/category';
 
 class CategoryList extends Component {
 
-    async componentDidMount() {
+    componentDidMount() {
         this.props.fetchCategories();
+    }
+
+    handleCategoryClick = (categoryName, e) => {
+        // e.preventDefault();
+        this.props.selectCategory(categoryName);
+        // this.props.fetchArticlesFromCategory(categoryName);
     }
     
     render() { 
         return ( <div className="pr-5 border-right">
             <h2>Categories</h2>
             <div className="d-flex flex-column">
-                {this.props.categories.map(({ name, id }) => <GeneralLink key={id}>{name}</GeneralLink>)}
+                {this.props.categories.map(({ name, id }) => <GeneralLink onClick={() => this.handleCategoryClick(name)} key={id}>{name}</GeneralLink>)}
             </div>
         </div> );
     }

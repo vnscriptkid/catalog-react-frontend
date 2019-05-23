@@ -1,5 +1,5 @@
 import api from '../api/instance';
-import {SAVE_CATEGORIES} from './types';
+import {SAVE_CATEGORIES, SELECT_CATEGORY} from './types';
 
 export const fetchCategories = () => {
     return (dispatch) => {
@@ -12,4 +12,9 @@ export const fetchCategories = () => {
 export const saveCategories = (categories) => ({
     type: SAVE_CATEGORIES,
     payload: categories
+})
+
+export const selectCategory = (categoryName) => ({
+    type: SELECT_CATEGORY,
+    payload: categoryName
 })

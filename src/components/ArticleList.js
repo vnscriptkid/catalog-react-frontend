@@ -1,27 +1,44 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import GeneralLink from './GeneralLink';
+import * as actions from '../actions/article'
 import MutedText from './MutedText';
-import api from '../api/instance'
 
 class ArticleList extends Component {
-    state = { articles: [] }
+    componentDidMount() {
+        this.props.fetchArticles()
+    }
 
-    async componentDidMount() {
-        const response = await api('/articles');
-        this.setState({ articles: response.data })
+    renderHeading = () => {
+        return this.props.selectedCategory ? <h2>{this.props.selectedCategory}</h2> : <h2>Latest Items</h2>
+    }
+
+    renderArticles = () => {
+        const {selectedCategory, latest, articleList, articlesObject} = this.props;
+        const result = selectedCategory ?
+            articleList.filter(article => article.category.name === selectedCategory)
+            :
+            latest.map(articleId => articlesObject[articleId]);
+        return Object.keys(articlesObject).length ? result.map(({ id, title }) => <GeneralLink to={`/article/${id}`} key={id}>{title}</GeneralLink>) : null
     }
     
     render() { 
         return (  
             <div className="pl-5">
-                <h2>Latest Items</h2>
+                {this.renderHeading()}
                 <div className="d-flex flex-column">
-                    {/* {Array(10).fill(null).map(ele => <GeneralLink to={'/article/1'}>Basket Ball <MutedText>(Volleyball)</MutedText></GeneralLink>)} */}
-                    {this.state.articles.map(({ title, id }) => <GeneralLink to={`/article/${id}`} key={id}>{title}</GeneralLink>)}
+                    {this.renderArticles()}
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = (({ articles, selectedCategory }) => ({ 
+    selectedCategory, 
+    latest: articles.latest, 
+    articleList: Object.keys(articles.all).map(key => articles.all[key]),
+    articlesObject: articles.all
+}))
  
-export default ArticleList;
+export default connect(mapStateToProps, { ...actions })(ArticleList);
