@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'http2';
+import { connect } from 'react-redux';
 
 export default (Comp) => {
     class Wrapper extends Component {

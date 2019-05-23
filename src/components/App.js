@@ -13,6 +13,8 @@ import Login from './Login';
 import Notification from './Notification';
 import RouteChangeListener from './RouteChangeListener';
 import requireAuth from '../hoc/requireAuth';
+import mustBeAuthor from '../hoc/mustBeAuthor';
+import EditForm from './EditForm';
 
 class App extends Component {
 
@@ -34,7 +36,7 @@ class App extends Component {
                                     <InputField label="Last Name" />
                                 </UserForm>} />
                                 <Route path="/article/new" component={requireAuth(ArticleForm)} />
-                                <Route path="/article/:id/edit" component={ArticleForm} />
+                                <Route path="/article/:id/edit" component={EditForm} />
                                 <Route path="/article/:id/delete" component={DeleteConfirm} />
                                 <Route path="/article/:id" component={ArticleDetail} />
                                 <NotFound path="/notfound"/>
