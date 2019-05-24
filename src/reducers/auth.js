@@ -1,4 +1,4 @@
-import {SAVE_TOKEN, REMOVE_TOKEN, SAVE_USER_INFO} from '../actions/types';
+import { REMOVE_TOKEN, SAVE_USER_INFO} from '../actions/types';
 
 function getUserInfoFromStorage() {
     const token = localStorage.getItem('token') || null;

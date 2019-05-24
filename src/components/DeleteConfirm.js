@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux'
-import * as actions from '../actions/article'
+import * as articleActions from '../actions/article'
+import * as notificationActions from '../actions/notification'
 
 class DeleteConfirm extends Component {
 
@@ -9,7 +10,8 @@ class DeleteConfirm extends Component {
     }
 
     afterDeleteSuccess = () => {
-        console.log('done delete');
+        this.props.history.push('/') 
+        this.props.addNotification({ message: 'Deleted Successfully' })
     }
     
     render() { 
@@ -21,4 +23,4 @@ class DeleteConfirm extends Component {
     }
 }
  
-export default connect(null, { ...actions })(DeleteConfirm);
+export default connect(null, { ...articleActions, ...notificationActions })(DeleteConfirm);

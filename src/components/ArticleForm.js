@@ -41,8 +41,7 @@ class ArticleForm extends Component {
 }
 
 const mapStateToProps = ({ articles }, props) => ({
-    article: articles.all[props.match.params.id],
-    articles
+    article: articles[props.match.params.id]
 }) 
 
 export default connect(mapStateToProps)(ArticleForm);

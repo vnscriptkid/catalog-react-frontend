@@ -1,25 +1,24 @@
-import {SAVE_ARTICLES, SAVE_SINGLE_ARTICLE, SAVE_LATEST_ARTICLES, REMOVE_ARTICLE} from '../actions/types'
+import {SAVE_ARTICLES, SAVE_SINGLE_ARTICLE, REMOVE_ARTICLE} from '../actions/types'
 
-const defaultState = {
-    all: {},
-    latest: [],
-}
-
-export default (state = defaultState, action = {}) => {
+export default (state = {}, action = {}) => {
     switch (action.type) {
-        case SAVE_LATEST_ARTICLES:
-            return {  ...state, latest: action.payload.map(article => article.id) }
         case SAVE_ARTICLES:
             const transformedArticles = action.payload.reduce((acc, article) => {
                 acc[article.id] = article;
                 return acc;
             }, {})
-            return { ...state, all: { ...state.all, ...transformedArticles} }
+            return { ...state, ...transformedArticles }
         case SAVE_SINGLE_ARTICLE:
             const article = action.payload
-            return { ...state, all: {...state.all, [article.id]: article} }
+            return { ...state, [article.id]: article }
         case REMOVE_ARTICLE:
-            return state;
+            const articlesObject = Object.keys(state)
+                .filter(articleId => articleId !== action.payload)
+                .reduce((acc, articleId) => {
+                    acc[articleId] = state[articleId];
+                    return acc;
+                }, {})
+            return { ...state, ...articlesObject };
         default:
             return state;
     }

@@ -1,24 +1,23 @@
 import api from '../api/instance';
-import {SAVE_TOKEN, REMOVE_TOKEN, SAVE_USER_INFO} from './types';
+import { REMOVE_TOKEN, SAVE_USER_INFO} from './types';
 
 // TODO: handle error case
-export const login = ({username, password, followFn}) => {
+export const login = ({username, password, followSuccess, followFailure}) => {
     return (dispatch) => {
         api.post('/auth', { username, password })
             .then(response => {
                 dispatch(saveUserInfo({token: response.data.access_token, username}))
-                followFn();
+                followSuccess();
             })
+            .catch(error => {
+                followFailure(error.response.data.description)
+            })
+
     }
 }
 
 export const logout = () => ({
     type: REMOVE_TOKEN
-})
-
-export const saveToken = (token) => ({
-    type: SAVE_TOKEN,
-    payload: token
 })
 
 export const saveUserInfo = ({ token, username }) => ({

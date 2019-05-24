@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import * as actions from '../actions/article';
 
 class ArticleDetail extends Component {
@@ -17,8 +17,12 @@ class ArticleDetail extends Component {
 
     componentDidMount() {
         if (!this.props.article) {
-            this.props.fetchArticles({ id: this.props.match.params.id })
+            this.props.fetchSingleArticle({ id: this.props.match.params.id, followFailure: this.followFetchFailure })
         }
+    }
+
+    followFetchFailure = () => {
+        this.props.history.push('/notfound');
     }
 
     renderTime(stringOfTime) {
@@ -28,7 +32,6 @@ class ArticleDetail extends Component {
     }
 
     render() { 
-        if (!this.props.article) return <Redirect to="/notfound"/>
         const {title,body,author,created_at} = this.props.article || {};
         return (  
             <Fragment>
@@ -45,7 +48,7 @@ class ArticleDetail extends Component {
 }
  
 const mapStateToProps = ({ articles, auth }, props) => ({ 
-    article: articles.all[props.match.params.id], 
+    article: articles[props.match.params.id], 
     isAuth: auth && !!auth.token,
     currentUser: auth && auth.username 
 })

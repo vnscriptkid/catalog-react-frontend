@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom'
 import {compose} from 'redux';
@@ -23,6 +23,11 @@ const mapStateToProps = ({ notification }) => ({
     message: notification.message
 })
 
-const WrappedByRouter = withRouter(RouteChangeListener);
+// const WrappedByRouter = withRouter(RouteChangeListener);
  
-export default connect(mapStateToProps, { ...actions })(WrappedByRouter);
+// export default connect(mapStateToProps, { ...actions })(WrappedByRouter);
+
+export default compose(
+    withRouter,
+    connect(mapStateToProps, { ...actions })
+)(RouteChangeListener)

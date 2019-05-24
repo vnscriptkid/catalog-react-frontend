@@ -15,12 +15,13 @@ class ArticleList extends Component {
     }
 
     renderArticles = () => {
-        const {selectedCategory, latest, articleList, articlesObject} = this.props;
+        const {selectedCategory, articleList, articlesObject} = this.props;
         const result = selectedCategory ?
             articleList.filter(article => article.category.name === selectedCategory)
             :
-            latest.map(articleId => articlesObject[articleId]);
-        return Object.keys(articlesObject).length ? result.map(({ id, title, category }) => (
+            Object.keys(articlesObject).map(articleId => articlesObject[articleId]);
+            
+        return result.length ? result.map(({ id, title, category }) => (
             <GeneralLink to={`/article/${id}`} key={id}>{title}<MutedText> ({category && category.name})</MutedText></GeneralLink>
         )) : null
     }
@@ -32,8 +33,8 @@ class ArticleList extends Component {
     render() { 
         return (  
             <div className="pl-5">
-                {this.renderAddingAuthBased()}
                 {this.renderHeading()}
+                {this.renderAddingAuthBased()}
                 <div className="d-flex flex-column">
                     {this.renderArticles()}
                 </div>
@@ -44,9 +45,8 @@ class ArticleList extends Component {
 
 const mapStateToProps = (({ articles, selectedCategory, auth }) => ({ 
     selectedCategory, 
-    latest: articles.latest, 
-    articleList: Object.keys(articles.all).map(key => articles.all[key]),
-    articlesObject: articles.all,
+    articleList: Object.keys(articles).map(key => articles[key]),
+    articlesObject: articles,
     isAuth: auth && !!auth.token
 }))
  

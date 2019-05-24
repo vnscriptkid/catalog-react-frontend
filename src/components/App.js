@@ -13,7 +13,6 @@ import Login from './Login';
 import Notification from './Notification';
 import RouteChangeListener from './RouteChangeListener';
 import requireAuth from '../hoc/requireAuth';
-import mustBeAuthor from '../hoc/mustBeAuthor';
 import EditForm from './EditForm';
 
 class App extends Component {

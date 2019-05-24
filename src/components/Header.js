@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import * as actions from '../actions/auth';
+import * as notificationActions from '../actions/notification';
 
 class Header extends Component {
 
@@ -23,7 +24,9 @@ class Header extends Component {
     handleLogout = () => {
         // eslint-disable-next-line no-restricted-globals
         const yes = confirm('Are your sure to log out?')
-        if (yes) this.props.logout(); 
+        if (yes) this.props.logout();
+        this.props.addNotification({ message: 'Logged out successfully!' })
+
     }
     
     render() { 
@@ -40,4 +43,4 @@ class Header extends Component {
 
 const mapStateToProps = ({ auth }) => ({ isAuth: auth && auth.token })
  
-export default connect(mapStateToProps, { ...actions })(Header);
+export default connect(mapStateToProps, { ...actions, ...notificationActions })(Header);

@@ -12,12 +12,16 @@ class Login extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
         const {username, password} = this.state;
-        this.props.login({username, password, followFn: this.afterLoginSuccess});
+        this.props.login({username, password, followSuccess: this.afterLoginSuccess, followFailure: this.afterLoginFailure});
     }
 
     afterLoginSuccess = () => {
         this.props.history.push('/');
         this.props.addNotification({ message: 'Login successfully' })
+    }
+
+    afterLoginFailure = (message) => {
+        this.props.addNotification({ type: 'error', message })
     }
 
     handleInputChange = (e) => {
