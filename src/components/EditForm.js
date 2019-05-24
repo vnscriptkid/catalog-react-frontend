@@ -1,63 +1,84 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {compose} from 'redux';
 import * as actions from '../actions/article'; 
+import * as notificationActions from '../actions/notification'; 
 import * as categoryActions from '../actions/category'; 
+import mustBeAuthor from '../hoc/mustBeAuthor';
+import {reduxForm, Field} from 'redux-form';
+const _ = require('lodash');
 
-class ArticleForm extends Component {
+const validate = (values) => {
+    const errors = {}
+    if (!values.title) errors.title = 'Title required'
+    if (!values.body) errors.body = 'Body required'
+    return errors;
+}
 
-    state = {
-        title: this.props.article && this.props.article.title,
-        body: this.props.article && this.props.article.body,
-        categoryId: this.props.article && this.props.article.category.id
-    }
+class EditForm extends Component {
 
-    handleInputChange = (e) => {
-        const {name, value} = e.target;
-        this.setState({ [name]: name !== "categoryId" ? value : parseInt(value) })
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.editArticle({ articleId: this.props.articleId, updatedArticle: this.state })
-    }
+    renderField = ({ input, label, type, meta: { touched, error }, rows }) => (
+        <div className="form-group">
+            <label htmlFor="titleInput">{label}</label>
+            {type === "text" && <input className="form-control" {...input} type={type} />}
+            {type === "textarea" && <textarea className="form-control" {...input} rows={rows} type={type} />}
+            {touched && error && <h6 className="form-text text-danger">{error}</h6>}
+        </div>
+    )
 
     componentDidMount() {
         if (!this.props.categories.length) this.props.fetchCategories();
-        if (!this.props.article) this.props.fetchSingleArticle(this.props.match.params.id);
+        if (!this.props.article) this.props.fetchSingleArticle({id: this.props.match.params.id});
+    }
+
+    handleLocalFormSubmit = (values) => {
+        this.props.updateArticle({ 
+            updatedArticle: values, 
+            articleId: this.props.articleId, 
+            afterSuccess: this.afterSuccess, 
+            afterFailure: this.afterFailure 
+        })
+    }
+
+    afterFailure = (error) => {
+        console.log('afterFailure: ', error);
+    }
+
+    afterSuccess = () => {
+        this.props.addNotification({ message: 'Updated article successfullly' })
     }
 
     render() {
-        const { title, body, categoryId } = this.state.article || {};
-        return (<form className="col-lg-10 mx-auto" onSubmit={this.handleSubmit}>
+        const { handleSubmit, pristine, submitting, valid } = this.props;
+        return (<form className="col-lg-10 mx-auto" onSubmit={handleSubmit(this.handleLocalFormSubmit)}>
             <h3>Edit Article</h3>
-            <div className="form-group">
-                <label htmlFor="titleInput">Title</label>
-                <input name="title" value={title} type="text" onChange={this.handleInputChange} className="form-control" id="titleInput" />
-            </div>
-            <div className="form-group">
-                <label htmlFor="bodyInput">Body</label>
-                <textarea name="body" value={body} type="text" onChange={this.handleInputChange} rows="5" className="form-control" id="bodyInput" >{body}</textarea>
-            </div>
-            <div className="form-group">
-                <label>Select Category</label>
-                <select className="form-control" name="category" defaultValue={categoryId} onChange={this.handleInputChange}>
-                    {this.props.categories.map(({ name, id }) => (
-                        <option value={id} key={id}>{name}</option>
-                    ))}
-                </select>
-            </div>
-            <div className="form-group row">
-                <div className="col-sm-10">
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                <Field name="title" label="Title" component={this.renderField} type="text" className="form-control" />
+                <Field name="body" label="Body" component={this.renderField} type="textarea" rows="5" className="form-control" />
+                <div className="form-group">
+                    <Field className="form-control" name="category" component="select">
+                        {this.props.categories.map(({ name, id }) => (
+                            <option value={id} key={id}>{name}</option>
+                            ))}
+                    </Field>
                 </div>
+            <div className="form-group">
+                <button type="submit" disabled={!valid || pristine || submitting} className="btn btn-primary btn-block">Submit</button>
             </div>
         </form>);
     }
 }
 
-const mapStateToProps = ({ articles, categories }, props) => ({
-    article: articles[props.match.params.id],
-    categories
-})
+const mapStateToProps = ({ articles, categories }, props) => {
+    const article = articles[props.match.params.id];
+    return {
+        categories,
+        articleId: article && article.id,
+        initialValues: { ..._.pick(article, ['title', 'body', 'category']), category: article && article.category.id }
+    }
+}
 
-export default connect(mapStateToProps, { ...actions, ...categoryActions })(ArticleForm);
+export default compose(
+    mustBeAuthor,
+    connect(mapStateToProps, { ...actions, ...categoryActions, ...notificationActions }),    
+    reduxForm({ form: 'articleEdit', enableReinitialize: true, validate }),
+)(EditForm); 

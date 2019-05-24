@@ -1,5 +1,6 @@
-import api from '../api/instance';
+import api, {authHeader} from '../api/instance';
 import {SAVE_ARTICLES, SAVE_SINGLE_ARTICLE, REMOVE_ARTICLE} from './types';
+import _ from 'lodash';
 
 // 2 cases
 // /articles -> fetch the latest
@@ -65,13 +66,23 @@ export const removeArticle = (articleId) => ({
     payload: articleId
 })
 
-export const editArticle = ({ articleId, updatedArticle }) => {
+export const updateArticle = ({ articleId, updatedArticle, afterSuccess, afterFailure }) => {
     return (dispatch, getState) => {
-        api.put(`articles/${articleId}`, {
-            data: updatedArticle,
-            headers: {
-                'Authorization': `JWT ${getState().auth.token}`
-            }
+        debugger;
+        api.put(`articles/${articleId}`, null, {
+            data: {
+                ..._.pick(updatedArticle, ['title', 'body']), 
+                category_id: parseInt(updatedArticle.category)
+            },
+            headers: authHeader(getState().auth.token)
+        })
+        .then(response => {
+            debugger;
+            dispatch(saveSingleArticle(response.data));
+            afterSuccess()
+        })
+        .catch(error => {
+            afterFailure(error.response);
         })
     }
 }

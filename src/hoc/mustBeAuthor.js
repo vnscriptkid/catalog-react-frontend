@@ -1,12 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 export default (Comp) => {
-    class Wrapper extends Component {
+    class AuthorRequired extends Component {
 
-        componentWillMount() {
-            if (!this.props.isAuth || this.props.author.username !== this.props.currentUser) 
-                return this.props.history.push('/');
+        static propTypes = {
+            history: PropTypes.object.isRequired,
+            isAuth: PropTypes.bool.isRequired,
+            currentUser: PropTypes.string,
+            article: PropTypes.object 
+        }
+
+        componentDidMount() {
+            this.checkAuthor();
+        }
+
+        componentDidUpdate() {
+            this.checkAuthor();
+        }
+
+        checkAuthor = () => {
+            if (!this.props.isAuth) this.exit();
+            if (this.props.article && this.props.article.author.username !== this.props.currentUser) {
+                this.exit();
+            }
+        }
+
+        exit = () => {
+            this.props.history.push('/');
         }
         
         render() {
@@ -14,7 +36,11 @@ export default (Comp) => {
         }
     }
 
-    const mapStateToProps = ({ auth }) => ({ isAuth: !!auth, currentUser: auth.username })
+    const mapStateToProps = ({ auth, articles }, props) => ({ 
+        isAuth: !!auth.token, 
+        currentUser: auth.username, 
+        article: articles[props.match.params.id]  
+    })
 
-    return connect(mapStateToProps)(Wrapper);
+    return connect(mapStateToProps)(AuthorRequired);
 }

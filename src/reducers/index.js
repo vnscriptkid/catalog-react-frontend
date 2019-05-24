@@ -12,5 +12,5 @@ export default combineReducers({
     articles: articleReducer,
     categories: categoryReducer,
     form: formReducer,
-    selectedCategory: selectedCategory
+    selectedCategory: selectedCategory,
 })

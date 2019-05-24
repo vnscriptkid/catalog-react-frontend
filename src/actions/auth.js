@@ -1,4 +1,4 @@
-import api from '../api/instance';
+import api, { authHeader } from '../api/instance';
 import { REMOVE_TOKEN, SAVE_USER_INFO} from './types';
 
 // TODO: handle error case
@@ -10,9 +10,23 @@ export const login = ({username, password, followSuccess, followFailure}) => {
                 followSuccess();
             })
             .catch(error => {
-                followFailure(error.response.data.description)
+                followFailure(error.response)
             })
 
+    }
+}
+
+export const registerUser = ({ username, password, firstName, lastName, afterSuccess, afterFailure }) => {
+    return (dispatch, getState) => {
+        api.post('/users', null, {
+            data: { username, password, first_name: firstName, last_name: lastName }
+        })
+            .then((response) => {
+                afterSuccess();
+            })
+            .catch((error) => {
+                afterFailure();
+            })
     }
 }
 

@@ -18,7 +18,7 @@ export default (state = {}, action = {}) => {
                     acc[articleId] = state[articleId];
                     return acc;
                 }, {})
-            return { ...state, ...articlesObject };
+            return articlesObject;
         default:
             return state;
     }

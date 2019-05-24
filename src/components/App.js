@@ -6,14 +6,14 @@ import WhitePage from './WhitePage';
 import ArticleDetail from './ArticleDetail';
 import ArticleForm from './ArticleForm';
 import DeleteConfirm from './DeleteConfirm';
-import UserForm from './UserForm';
-import InputField from './InputField';
 import NotFound from './NotFound';
 import Login from './Login';
 import Notification from './Notification';
 import RouteChangeListener from './RouteChangeListener';
 import requireAuth from '../hoc/requireAuth';
 import EditForm from './EditForm';
+import Signup from './Signup';
+import UnAuthOnly from './UnAuthOnly';
 
 class App extends Component {
 
@@ -27,13 +27,8 @@ class App extends Component {
                         <WhitePage>
                             <Switch>
                                 <Route path="/" exact component={GeneralView} />
-                                <Route path="/login" component={Login} />
-                                <Route path="/register" render={() => <UserForm>
-                                    <InputField label="User Name" />
-                                    <InputField label="Password" type="password" />
-                                    <InputField label="First Name" />
-                                    <InputField label="Last Name" />
-                                </UserForm>} />
+                                <Route path="/login" render={() => <UnAuthOnly><Login /></UnAuthOnly>} />
+                                <Route path="/register" render={() => <UnAuthOnly><Signup /></UnAuthOnly>} />
                                 <Route path="/article/new" component={requireAuth(ArticleForm)} />
                                 <Route path="/article/:id/edit" component={EditForm} />
                                 <Route path="/article/:id/delete" component={DeleteConfirm} />

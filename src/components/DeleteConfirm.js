@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux'
+import {compose} from 'redux';
+import mustBeAuthor from '../hoc/mustBeAuthor';
 import * as articleActions from '../actions/article'
 import * as notificationActions from '../actions/notification'
 
@@ -13,6 +15,12 @@ class DeleteConfirm extends Component {
         this.props.history.push('/') 
         this.props.addNotification({ message: 'Deleted Successfully' })
     }
+
+    componentDidMount = () => {
+        if (!this.props.article) {
+            this.props.fetchSingleArticle({id: this.props.match.params.id});
+        }
+    }
     
     render() { 
         return ( <Fragment>
@@ -23,4 +31,7 @@ class DeleteConfirm extends Component {
     }
 }
  
-export default connect(null, { ...articleActions, ...notificationActions })(DeleteConfirm);
+export default compose(
+    mustBeAuthor,
+    connect(({ articles }, props) => ({ article: articles[props.match.params.id] }), { ...articleActions, ...notificationActions }),
+)(DeleteConfirm);
