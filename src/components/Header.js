@@ -24,9 +24,10 @@ class Header extends Component {
     handleLogout = () => {
         // eslint-disable-next-line no-restricted-globals
         const yes = confirm('Are your sure to log out?')
-        if (yes) this.props.logout();
-        this.props.addNotification({ message: 'Logged out successfully!' })
-
+        if (yes) {
+            this.props.logout()
+            this.props.addNotification({ message: 'Logged out successfully!' })
+        }
     }
     
     render() { 

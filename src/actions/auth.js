@@ -1,16 +1,16 @@
-import api, { authHeader } from '../api/instance';
-import { REMOVE_TOKEN, SAVE_USER_INFO} from './types';
+import api from '../api/instance';
+import { REMOVE_USER_INFO, SAVE_USER_INFO} from './types';
 
 // TODO: handle error case
 export const login = ({username, password, followSuccess, followFailure}) => {
     return (dispatch) => {
-        api.post('/auth', { username, password })
+        return api.post('/auth', { username, password })
             .then(response => {
                 dispatch(saveUserInfo({token: response.data.access_token, username}))
-                followSuccess();
+                if (followSuccess) followSuccess();
             })
             .catch(error => {
-                followFailure(error.response)
+                if (followFailure) followFailure(error.response)
             })
 
     }
@@ -18,20 +18,20 @@ export const login = ({username, password, followSuccess, followFailure}) => {
 
 export const registerUser = ({ username, password, firstName, lastName, afterSuccess, afterFailure }) => {
     return (dispatch, getState) => {
-        api.post('/users', null, {
+        return api.post('/users', null, {
             data: { username, password, first_name: firstName, last_name: lastName }
         })
             .then((response) => {
-                afterSuccess();
+                if (afterSuccess && typeof afterSuccess === 'function') afterSuccess();
             })
             .catch((error) => {
-                afterFailure();
+                if (afterFailure && typeof afterFailure === 'function') afterFailure();
             })
     }
 }
 
 export const logout = () => ({
-    type: REMOVE_TOKEN
+    type: REMOVE_USER_INFO
 })
 
 export const saveUserInfo = ({ token, username }) => ({

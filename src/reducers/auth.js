@@ -1,4 +1,4 @@
-import { REMOVE_TOKEN, SAVE_USER_INFO} from '../actions/types';
+import { REMOVE_USER_INFO, SAVE_USER_INFO} from '../actions/types';
 
 function getUserInfoFromStorage() {
     const token = localStorage.getItem('token') || null;
@@ -23,7 +23,7 @@ export default (state = defaultState, action = {}) => {
         case SAVE_USER_INFO:
             setUserInfoToStorage(action.payload);
             return action.payload;
-        case REMOVE_TOKEN:
+        case REMOVE_USER_INFO:
             removeUserInfoFromStorage();
             return { token: null, username: null };
         default:

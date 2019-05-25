@@ -10,10 +10,10 @@ import NotFound from './NotFound';
 import Login from './Login';
 import Notification from './Notification';
 import RouteChangeListener from './RouteChangeListener';
-import requireAuth from '../hoc/requireAuth';
 import EditForm from './EditForm';
 import Signup from './Signup';
 import UnAuthOnly from './UnAuthOnly';
+import LoggedInRequired from './LoggedInRequired';
 
 class App extends Component {
 
@@ -29,7 +29,7 @@ class App extends Component {
                                 <Route path="/" exact component={GeneralView} />
                                 <Route path="/login" render={() => <UnAuthOnly><Login /></UnAuthOnly>} />
                                 <Route path="/register" render={() => <UnAuthOnly><Signup /></UnAuthOnly>} />
-                                <Route path="/article/new" component={requireAuth(ArticleForm)} />
+                                <Route path="/article/new" render={() => <LoggedInRequired><ArticleForm /></LoggedInRequired>} />
                                 <Route path="/article/:id/edit" component={EditForm} />
                                 <Route path="/article/:id/delete" component={DeleteConfirm} />
                                 <Route path="/article/:id" component={ArticleDetail} />

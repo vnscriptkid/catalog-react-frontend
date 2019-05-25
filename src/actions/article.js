@@ -1,5 +1,6 @@
 import api, {authHeader} from '../api/instance';
 import {SAVE_ARTICLES, SAVE_SINGLE_ARTICLE, REMOVE_ARTICLE} from './types';
+import {addNotification} from './notification';
 import _ from 'lodash';
 
 // 2 cases
@@ -48,7 +49,7 @@ export const saveSingleArticle = (article) => ({
 
 export const deleteArticle = ({articleId, followingFn}) => {
     return (dispatch, getState) => {
-        api.delete(`articles/${articleId}`, {
+        return api.delete(`articles/${articleId}`, {
             headers: {
                 'Authorization': `JWT ${getState().auth.token}`
             }
@@ -68,16 +69,14 @@ export const removeArticle = (articleId) => ({
 
 export const updateArticle = ({ articleId, updatedArticle, afterSuccess, afterFailure }) => {
     return (dispatch, getState) => {
-        debugger;
-        api.put(`articles/${articleId}`, null, {
+        return api.put(`articles/${articleId}`, null, {
             data: {
                 ..._.pick(updatedArticle, ['title', 'body']), 
                 category_id: parseInt(updatedArticle.category)
             },
-            headers: authHeader(getState().auth.token)
+            headers: authHeader(getState().auth.token) 
         })
         .then(response => {
-            debugger;
             dispatch(saveSingleArticle(response.data));
             afterSuccess()
         })
@@ -86,3 +85,22 @@ export const updateArticle = ({ articleId, updatedArticle, afterSuccess, afterFa
         })
     }
 }
+
+export const createArticle = ({ article, afterSuccess, afterFailure }) => {
+    return (dispatch, getState) => {
+        return api.post(`articles`, null, {
+            data: _.pick(article, ['title', 'body', 'category_id']),
+            headers: authHeader(getState().auth.token)
+        })
+        .then(response => {
+            const article = response.data;
+            dispatch(saveSingleArticle(article))
+            dispatch(addNotification({ message: 'Created article successfully' }))
+            if (afterSuccess && typeof afterSuccess === 'function') afterSuccess(article);
+        })
+        .catch(error => {
+            if (afterFailure && typeof afterFailure === 'function') afterFailure(error.response);
+            dispatch(addNotification({ message: 'Something wrong happened', type: 'error' }))
+        })
+    }
+} 
