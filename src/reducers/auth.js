@@ -1,17 +1,17 @@
 import { REMOVE_USER_INFO, SAVE_USER_INFO} from '../actions/types';
 
-function getUserInfoFromStorage() {
+export function getUserInfoFromStorage() {
     const token = localStorage.getItem('token') || null;
     const username = localStorage.getItem('username') || null;
     return { username, token }
 }
 
-function setUserInfoToStorage({ token, username }) {
+export function setUserInfoToStorage({ token, username }) {
     localStorage.setItem('token', token)
     localStorage.setItem('username', username)
 }
 
-function removeUserInfoFromStorage() {
+export function removeUserInfoFromStorage() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
 }
