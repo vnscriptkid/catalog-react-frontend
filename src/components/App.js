@@ -9,12 +9,12 @@ import DeleteConfirm from './DeleteConfirm';
 import NotFound from './NotFound';
 import Login from './Login';
 import Notification from './Notification';
-import RouteChangeListener from './RouteChangeListener';
+import RouteChangeListener from './behaviors/RouteChangeListener';
 import EditForm from './EditForm';
 import Signup from './Signup';
-import UnAuthOnly from './UnAuthOnly';
-import LoggedInRequired from './LoggedInRequired';
-import MustBeAuthor from './MustBeAuthor';
+import UnAuthOnly from './behaviors/UnAuthOnly';
+import LoggedInRequired from './behaviors/LoggedInRequired';
+import MustBeAuthor from './behaviors/MustBeAuthor';
 
 class App extends Component {
 

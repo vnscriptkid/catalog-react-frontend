@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux';
-import {fetchSingleArticle} from '../actions/article'
+import {fetchSingleArticle} from '../../actions/article'
 
 class MustBeAuthor extends Component {
     
