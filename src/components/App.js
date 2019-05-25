@@ -14,6 +14,7 @@ import EditForm from './EditForm';
 import Signup from './Signup';
 import UnAuthOnly from './UnAuthOnly';
 import LoggedInRequired from './LoggedInRequired';
+import MustBeAuthor from './MustBeAuthor';
 
 class App extends Component {
 
@@ -30,8 +31,8 @@ class App extends Component {
                                 <Route path="/login" render={() => <UnAuthOnly><Login /></UnAuthOnly>} />
                                 <Route path="/register" render={() => <UnAuthOnly><Signup /></UnAuthOnly>} />
                                 <Route path="/article/new" render={() => <LoggedInRequired><ArticleForm /></LoggedInRequired>} />
-                                <Route path="/article/:id/edit" component={EditForm} />
-                                <Route path="/article/:id/delete" component={DeleteConfirm} />
+                                <Route path="/article/:id/edit" render={(props) => <MustBeAuthor {...props}><EditForm {...props}/></MustBeAuthor>} />
+                                <Route path="/article/:id/delete" render={(props) => <MustBeAuthor {...props}><DeleteConfirm {...props}/></MustBeAuthor>} />
                                 <Route path="/article/:id" component={ArticleDetail} />
                                 <NotFound path="/notfound"/>
                             </Switch>

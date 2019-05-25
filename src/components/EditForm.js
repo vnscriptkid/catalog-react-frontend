@@ -4,7 +4,7 @@ import {compose} from 'redux';
 import * as actions from '../actions/article'; 
 import * as notificationActions from '../actions/notification'; 
 import * as categoryActions from '../actions/category'; 
-import mustBeAuthor from '../hoc/mustBeAuthor';
+// import mustBeAuthor from '../hoc/mustBeAuthor';
 import {reduxForm, Field} from 'redux-form';
 const _ = require('lodash');
 
@@ -78,7 +78,6 @@ const mapStateToProps = ({ articles, categories }, props) => {
 }
 
 export default compose(
-    mustBeAuthor,
     connect(mapStateToProps, { ...actions, ...categoryActions, ...notificationActions }),    
     reduxForm({ form: 'articleEdit', enableReinitialize: true, validate }),
-)(EditForm); 
+)(EditForm);

@@ -32,6 +32,8 @@ export const fetchSingleArticle = ({ id, followSuccess, followFailure }) => {
             if (followSuccess) followSuccess();
         })
         .catch(error => {
+            debugger;
+            console.log(error);
             if (followFailure) followFailure();
         })
     }
