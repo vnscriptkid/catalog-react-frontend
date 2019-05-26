@@ -7,6 +7,7 @@ import MutedText from './MutedText';
 
 class ArticleList extends Component {
     componentDidMount() {
+        console.log('fetch articles');
         this.props.fetchArticles()
     }
 

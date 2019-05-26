@@ -3,7 +3,7 @@ import CategoryList from './CategoryList';
 import ArticleList from './ArticleList';
 
 class GeneralView extends Component {
-    state = {  }
+    
     render() { 
         return ( 
             <div className="d-flex">

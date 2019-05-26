@@ -1,11 +1,6 @@
 import api, {authHeader} from '../api/instance';
 import {SAVE_ARTICLES, SAVE_SINGLE_ARTICLE, REMOVE_ARTICLE} from './types';
-import {addNotification} from './notification';
 import _ from 'lodash';
-
-// 2 cases
-// /articles -> fetch the latest
-// /categories/categoryId/articles -> fetch article of one category
 
 export const fetchArticles = () => {
     return (dispatch) => {
@@ -72,10 +67,7 @@ export const removeArticle = (articleId) => ({
 export const updateArticle = ({ articleId, updatedArticle, afterSuccess, afterFailure }) => {
     return (dispatch, getState) => {
         return api.put(`articles/${articleId}`, null, {
-            data: {
-                ..._.pick(updatedArticle, ['title', 'body']), 
-                category_id: parseInt(updatedArticle.category)
-            },
+            data: _.pick(updatedArticle, ['title', 'body', 'category_id']),
             headers: authHeader(getState().auth.token) 
         })
         .then(response => {
@@ -92,17 +84,15 @@ export const createArticle = ({ article, afterSuccess, afterFailure }) => {
     return (dispatch, getState) => {
         return api.post(`articles`, null, {
             data: _.pick(article, ['title', 'body', 'category_id']),
-            headers: authHeader(getState().auth.token)
+            headers: authHeader(getState().auth.token) 
         })
         .then(response => {
             const article = response.data;
             dispatch(saveSingleArticle(article))
-            dispatch(addNotification({ message: 'Created article successfully' }))
             if (afterSuccess && typeof afterSuccess === 'function') afterSuccess(article);
         })
         .catch(error => {
             if (afterFailure && typeof afterFailure === 'function') afterFailure(error.response);
-            dispatch(addNotification({ message: 'Something wrong happened', type: 'error' }))
         })
     }
 } 

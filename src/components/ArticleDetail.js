@@ -15,16 +15,6 @@ class ArticleDetail extends Component {
         ) : null;
     }
 
-    componentDidMount() {
-        if (!this.props.article) {
-            this.props.fetchSingleArticle({ id: this.props.match.params.id, followFailure: this.followFetchFailure })
-        }
-    }
-
-    followFetchFailure = () => {
-        this.props.history.push('/notfound');
-    }
-
     renderTime(stringOfTime) {
         const date = stringOfTime.split('T')[0];
         const time = stringOfTime.split('T')[1].split('+')[0];

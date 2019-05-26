@@ -4,7 +4,6 @@ import Header from './Header';
 import GeneralView from './GeneralView';
 import WhitePage from './WhitePage';
 import ArticleDetail from './ArticleDetail';
-import ArticleForm from './ArticleForm';
 import DeleteConfirm from './DeleteConfirm';
 import NotFound from './NotFound';
 import Login from './Login';
@@ -15,6 +14,8 @@ import Signup from './Signup';
 import UnAuthOnly from './behaviors/UnAuthOnly';
 import LoggedInRequired from './behaviors/LoggedInRequired';
 import MustBeAuthor from './behaviors/MustBeAuthor';
+import AddArticle from './AddArticle';
+import FetchSingleArticle from './behaviors/FetchSingleArticle';
 
 class App extends Component {
 
@@ -30,10 +31,10 @@ class App extends Component {
                                 <Route path="/" exact component={GeneralView} />
                                 <Route path="/login" render={() => <UnAuthOnly><Login /></UnAuthOnly>} />
                                 <Route path="/register" render={() => <UnAuthOnly><Signup /></UnAuthOnly>} />
-                                <Route path="/article/new" render={() => <LoggedInRequired><ArticleForm /></LoggedInRequired>} />
+                                <Route path="/article/new" render={() => <LoggedInRequired><AddArticle /></LoggedInRequired>} />
                                 <Route path="/article/:id/edit" render={(props) => <MustBeAuthor {...props}><EditForm {...props}/></MustBeAuthor>} />
                                 <Route path="/article/:id/delete" render={(props) => <MustBeAuthor {...props}><DeleteConfirm {...props}/></MustBeAuthor>} />
-                                <Route path="/article/:id" component={ArticleDetail} />
+                                <Route path="/article/:id" render={(props) => <FetchSingleArticle {...props}><ArticleDetail {...props}/></FetchSingleArticle>} />
                                 <NotFound path="/notfound"/>
                             </Switch>
                         </WhitePage>
