@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import GeneralLink from './GeneralLink';
+import RedClick from './RedClick';
 import {Link} from 'react-router-dom'
 import * as actions from '../actions/article'
 import MutedText from './MutedText';
 
 class ArticleList extends Component {
     componentDidMount() {
-        console.log('fetch articles');
         this.props.fetchArticles()
     }
 
@@ -23,7 +22,9 @@ class ArticleList extends Component {
             Object.keys(articlesObject).map(articleId => articlesObject[articleId]);
             
         return result.length ? result.map(({ id, title, category }) => (
-            <GeneralLink to={`/article/${id}`} key={id}>{title}<MutedText> ({category && category.name})</MutedText></GeneralLink>
+            <Link to={`/article/${id}`} key={id}>
+                <RedClick>{title}<MutedText> ({category && category.name})</MutedText></RedClick>
+            </Link>
         )) : null
     }
 
