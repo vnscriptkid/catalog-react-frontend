@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom'
 import * as actions from '../actions/article';
 
-class ArticleDetail extends Component {
+export class ArticleDetail extends Component {
 
     renderButtonsAuthorBased = () => {
         const {isAuth, article} = this.props;
@@ -16,6 +16,7 @@ class ArticleDetail extends Component {
     }
 
     renderTime(stringOfTime) {
+        debugger;
         const date = stringOfTime.split('T')[0];
         const time = stringOfTime.split('T')[1].split('+')[0];
         return `on ${date} at ${time}`
@@ -30,7 +31,7 @@ class ArticleDetail extends Component {
                     Created By <span className="badge badge-info">@{author && author.username}</span> 
                     <span> {created_at && this.renderTime(created_at)}</span>
                 </h6>
-                <p>{body}</p>
+                <p id="articleBody">{body}</p>
                 {this.renderButtonsAuthorBased()}
             </Fragment>
         );
