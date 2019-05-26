@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import RedClick from './RedClick';
 import {Link} from 'react-router-dom'
-import * as actions from '../actions/article'
+import {fetchArticles} from '../actions/article'
 import MutedText from './MutedText';
 
-class ArticleList extends Component {
+export class ArticleList extends Component {
     componentDidMount() {
         this.props.fetchArticles()
     }
@@ -15,17 +15,17 @@ class ArticleList extends Component {
     }
 
     renderArticles = () => {
-        const {selectedCategory, articleList, articlesObject} = this.props;
-        const result = selectedCategory ?
-            articleList.filter(article => article.category.name === selectedCategory)
+        let {selectedCategory, articles} = this.props;
+        articles = selectedCategory ?
+            articles.filter(article => article.category.name === selectedCategory)
             :
-            Object.keys(articlesObject).map(articleId => articlesObject[articleId]);
+            articles;
             
-        return result.length ? result.map(({ id, title, category }) => (
+        return articles.map(({ id, title, category }) => (
             <Link to={`/article/${id}`} key={id}>
                 <RedClick>{title}<MutedText> ({category && category.name})</MutedText></RedClick>
             </Link>
-        )) : null
+        ));
     }
 
     renderAddingAuthBased = () => this.props.isAuth ?
@@ -47,9 +47,8 @@ class ArticleList extends Component {
 
 const mapStateToProps = (({ articles, selectedCategory, auth }) => ({ 
     selectedCategory, 
-    articleList: Object.keys(articles).map(key => articles[key]),
-    articlesObject: articles,
+    articles: Object.keys(articles).map(key => articles[key]),
     isAuth: auth && !!auth.token
 }))
  
-export default connect(mapStateToProps, { ...actions })(ArticleList);
+export default connect(mapStateToProps, { fetchArticles })(ArticleList);
