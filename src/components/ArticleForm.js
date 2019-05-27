@@ -13,7 +13,7 @@ const validate = (values) => {
     return errors;
 }
 
-class ArticleForm extends Component {
+export class ArticleForm extends Component {
 
     static propTypes = {
         type: PropTypes.oneOf(['edit', undefined, 'add']),
@@ -28,7 +28,7 @@ class ArticleForm extends Component {
         <div className="form-group">
             <label htmlFor="titleInput">{label}</label>
             {type === "text" && <input className="form-control" {...input} type={type} />}
-            {type === "textarea" && <textarea className="form-control" {...input} rows={rows} type={type} />}
+            {type === "textarea" && <textarea className="form-control" {...input} rows={rows} />}
             {touched && error && <h6 className="form-text text-danger">{error}</h6>}
         </div>
     )
